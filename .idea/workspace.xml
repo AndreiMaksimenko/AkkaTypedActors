@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fa7476aa-9c02-4e10-9a53-8569de99a67d" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1ZGgAVuh7ZHWMPHZwRDe54IFTjY" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="RunManager" selected="Application.Server">
+    <configuration name="Client" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="Client" />
+      <module name="akkahttp" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlayGround" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="Beans.PlayGround" />
+      <module name="akkahttp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Beans.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Server" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="Server" />
+      <module name="akkahttp" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Server" />
+        <item itemvalue="Application.PlayGround" />
+        <item itemvalue="Application.Client" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SbtLocalSettings">
+    <option name="availableProjects">
+      <map>
+        <entry>
+          <key>
+            <ExternalProjectPojo>
+              <option name="name" value="akkahttp" />
+              <option name="path" value="$PROJECT_DIR$" />
+            </ExternalProjectPojo>
+          </key>
+          <value>
+            <list>
+              <ExternalProjectPojo>
+                <option name="name" value="root [file:/Users/max/IdeaProjects/Akka/akkahttp/]" />
+                <option name="path" value="$PROJECT_DIR$" />
+              </ExternalProjectPojo>
+              <ExternalProjectPojo>
+                <option name="name" value="akkahttp-build" />
+                <option name="path" value="$PROJECT_DIR$/project" />
+              </ExternalProjectPojo>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="modificationStamps">
+      <map>
+        <entry key="$PROJECT_DIR$" value="3169039484061" />
+        <entry key="$PROJECT_DIR$/build.sbt" value="54286554" />
+        <entry key="$PROJECT_DIR$/project/build.properties" value="1244562550" />
+      </map>
+    </option>
+    <option name="projectSyncType">
+      <map>
+        <entry key="$PROJECT_DIR$/../../cmwl/cmwl_pipeline" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../example" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../forcomp" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../funsets" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../objsets" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../patmat" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../recfun" value="PREVIEW" />
+      </map>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fa7476aa-9c02-4e10-9a53-8569de99a67d" name="Default Changelist" comment="" />
+      <created>1584470702360</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1584470702360</updated>
+      <workItem from="1584470709564" duration="17675000" />
+      <workItem from="1585561101752" duration="523000" />
+      <workItem from="1585643290129" duration="1939000" />
+      <workItem from="1585763069754" duration="6648000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="378" y="173" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1585771775081">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="378" y="173" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1280.800@0.0.1280.800" timestamp="1585771775081" />
+    <state x="453" y="105" key="#com.intellij.ide.util.MemberChooser" timestamp="1584479510053">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="453" y="105" key="#com.intellij.ide.util.MemberChooser/0.0.1280.800@0.0.1280.800" timestamp="1584479510053" />
+    <state width="619" height="318" key="GridCell.Tab.0.bottom" timestamp="1585773688077">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="619" height="318" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1585773688077" />
+    <state width="619" height="318" key="GridCell.Tab.0.center" timestamp="1585773688075">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="619" height="318" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1585773688075" />
+    <state width="619" height="318" key="GridCell.Tab.0.left" timestamp="1585773688074">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="619" height="318" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1585773688074" />
+    <state width="619" height="318" key="GridCell.Tab.0.right" timestamp="1585773688076">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="619" height="318" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1585773688076" />
+    <state x="319" y="232" key="com.intellij.ide.util.TipDialog" timestamp="1585765297806">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="319" y="232" key="com.intellij.ide.util.TipDialog/0.0.1280.800@0.0.1280.800" timestamp="1585765297806" />
+    <state x="319" y="232" key="com.intellij.ide.util.TipDialog/0.23.1280.730@0.23.1280.730" timestamp="1585643642342" />
+    <state x="370" y="319" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1585769364066">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="370" y="319" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.0.1280.800@0.0.1280.800" timestamp="1585769364066" />
+  </component>
+</project>
