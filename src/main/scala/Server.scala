@@ -1,30 +1,31 @@
-import java.util.concurrent.TimeUnit
-
-import akka.actor.{ ActorRef, ActorSystem, Props }
+import akka.actor
+import akka.actor.typed.scaladsl.AskPattern._
+import akka.actor.typed.scaladsl.adapter._
+import akka.actor.typed.{ ActorRef, Scheduler }
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{ ContentTypes, HttpEntity, StatusCodes }
 import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.RejectionHandler
-import akka.pattern.ask
+import akka.http.scaladsl.server.{ RejectionHandler, Route }
 import akka.util.Timeout
 
 import scala.concurrent.ExecutionContextExecutor
+import scala.concurrent.duration._
 import scala.util.{ Failure, Success }
 
 object Server extends App {
-  import CounterActor._
-
-  implicit val timeout: Timeout = Timeout(10, TimeUnit.SECONDS)
-  implicit val system: ActorSystem = ActorSystem()
+  import TypedCounter._
+  implicit val timeout: Timeout = 5.seconds
+  implicit val system: actor.ActorSystem = akka.actor.ActorSystem()
+  implicit val typed: Scheduler = ClassicSchedulerOps(system.scheduler).toTyped
+  val typedCounter: ActorRef[Command] = system.spawn(TypedCounter(), "Typed")
   implicit val executionContext: ExecutionContextExecutor = scala.concurrent.ExecutionContext.global
 
-  val counterActor: ActorRef = system.actorOf(Props[CounterActor], "counterActor")
   val client = new Client()
 
-  val route = {
+  val route: Route = {
     path("pictures" / Segment) { id =>
       get {
-        counterActor ! ValidPage
+        typedCounter ! ValidPage
         onComplete(client.getOneRocketById(id)) {
           case Success(r) =>
             complete(
@@ -36,7 +37,7 @@ object Server extends App {
       }
     } ~ path("pictures") {
       get {
-        counterActor ! ValidPage
+        typedCounter ! ValidPage
         onComplete(client.getRandomImage) {
           case Success(r) =>
             complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, s"<img src='$r'>"))
@@ -46,7 +47,7 @@ object Server extends App {
       }
     } ~ path("rockets") {
       get {
-        counterActor ! ValidPage
+        typedCounter ! ValidPage
         onComplete(client.getAllRockets) {
           case Success(r) =>
             complete(
@@ -59,17 +60,17 @@ object Server extends App {
       }
     } ~ path("statistic" / "succeed") {
       get {
-        onComplete(counterActor ? GetSucceed) {
-          case Success(value) =>
-            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, s"<h2>Endpoint requests count: ${value}</h2>"))
+        onComplete(typedCounter ? GetSucceed) {
+          case Success(CountValid(value)) =>
+            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, s"<h2>Endpoint requests count: $value</h2>"))
           case Failure(exc) => complete(StatusCodes.InternalServerError, exc.getMessage)
         }
       }
     } ~ path("statistic" / "handled") {
       get {
-        onComplete(counterActor ? GetHandled) {
-          case Success(value) =>
-            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, s"<h2>Wrong endpoint requests handled: ${value}</h2>"))
+        onComplete(typedCounter ? GetHandled) {
+          case Success(CountInvalid(value)) =>
+            complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, s"<h2>Wrong endpoint requests handled: $value</h2>"))
           case Failure(exc) => complete(StatusCodes.InternalServerError, exc.getMessage)
         }
       }
@@ -81,11 +82,11 @@ object Server extends App {
       .newBuilder()
       .handleNotFound {
         extractUnmatchedPath { p =>
-          counterActor ! InvalidPage
+          typedCounter ! InvalidPage
           complete(
             HttpEntity(
               ContentTypes.`text/html(UTF-8)`,
-              s"<h2>404 Error. The path you requested [${p}] does not exist.</h2>"
+              s"<h2>404 Error. The path you requested [$p] does not exist.</h2>"
             )
           )
         }
@@ -93,5 +94,4 @@ object Server extends App {
       .result()
 
   Http().bindAndHandle(route, "localhost", 8080)
-
 }

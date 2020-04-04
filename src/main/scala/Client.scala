@@ -8,9 +8,9 @@ import scala.concurrent.duration._
 import scala.concurrent.{ ExecutionContextExecutor, Future }
 
 class Client()(
-  implicit val system: ActorSystem,
   implicit val executionContext: ExecutionContextExecutor
 ) {
+  implicit val actorSystem = ActorSystem()
   val Url = "https://api.spacexdata.com/v3/rockets/"
   private val expirationTime: FiniteDuration = 500.millis
 
