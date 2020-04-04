@@ -17,6 +17,7 @@ lazy val root = (project in file(".")).settings(
     "com.typesafe.akka" %% "akka-testkit" % akkaVersion % Test,
     "com.typesafe.akka" %% "akka-stream-testkit" % akkaVersion % Test,
     "org.scalatest" %% "scalatest" % "3.2.0-M2" % Test,
-    "org.typelevel" %% "cats-core" % "2.1.1"
+    "org.typelevel" %% "cats-core" % "2.1.1",
+    "com.typesafe.play" %% "play-json" % "2.8.1"
   )
 )

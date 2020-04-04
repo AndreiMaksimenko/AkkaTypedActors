@@ -1,85 +1,51 @@
-import java.nio.charset.Charset
-
-import Beans.{ PhotosJsonSupport, Version, Versions }
+import Entities.Rocket
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.HttpMethods._
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.model.headers.{ ModeledCustomHeader, ModeledCustomHeaderCompanion }
-import akka.stream.ActorMaterializer
-import akka.util.ByteString
-import spray.json._
+import akka.http.scaladsl.model.{ HttpRequest, HttpResponse }
+import play.api.libs.json.{ JsResult, Json }
 
+import scala.concurrent.duration._
 import scala.concurrent.{ ExecutionContextExecutor, Future }
-import scala.util.{ Failure, Success, Try }
-
-final class ApiTokenHeader(token: String) extends ModeledCustomHeader[ApiTokenHeader] {
-  override def renderInRequests = true
-  override def renderInResponses = true
-  override val companion = ApiTokenHeader
-  override def value: String = token
-}
-object ApiTokenHeader extends ModeledCustomHeaderCompanion[ApiTokenHeader] {
-  override val name = "PRIVATE-TOKEN"
-  override def parse(value: String) = Try(new ApiTokenHeader(value))
-}
 
 class Client()(
   implicit val system: ActorSystem,
-  implicit val materializer: ActorMaterializer,
   implicit val executionContext: ExecutionContextExecutor
-) extends PhotosJsonSupport {
-  val gitLabURL =
-    "https://gitlab.com/api/v4/projects/AndreiMaksimenko%2FPath1/repository/tagshttps://gitlab.com/api/v4/projects/AndreiMaksimenko%2FPath1/repository/tags"
-  val key = "-BrCsxHmHTs2EBAMiRTx"
+) {
+  val Url = "https://api.spacexdata.com/v3/rockets/"
+  private val expirationTime: FiniteDuration = 500.millis
 
-  def responseFuture: Future[HttpResponse] =
-    Http().singleRequest(HttpRequest(method = GET, uri = s"$gitLabURL", headers = Seq(ApiTokenHeader(key))))
+  def getAllRockets: Future[Seq[Rocket]] = {
+    val responseFuture = parseHttpResponse(Http().singleRequest(HttpRequest(uri = Url)))
+    responseFuture.map(response => {
+      val bodyJsResult: JsResult[Seq[Rocket]] = Json.parse(response.body).validate[Seq[Rocket]]
+      bodyJsResult.get
+    })
 
-  def main(args: Array[String]): Unit =
-//    getPhotos.onComplete {
-//      case Success(value: Photos) => println(value)
-//      case Failure(exception)     => println("Fail: " + exception)
-//    }
-//
-//    getPhoto.onComplete {
-//      case Success(value)     => value.foreach(x => println(x.asJsObject.fields("img_src").asInstanceOf[JsString].value))
-//      case Failure(exception) => println("Fail: " + exception)
-//    }
-    getVersions.onComplete {
-      case Success(value: List[Version]) => value.foreach(x => println(x.name + x.target + x.message))
-      case Failure(exception)            => println("Fail" + exception)
-    }
+  }
+  def getOneRocketById(rocketID: String): Future[Rocket] = {
+    val responseFuture = parseHttpResponse(Http().singleRequest(HttpRequest(uri = Url + rocketID)))
+    responseFuture.map(response => {
+      val bodyJsResult: JsResult[Rocket] = Json.parse(response.body).validate[Rocket]
+      bodyJsResult.get
+    })
+  }
 
-  def getVersions: Future[Versions] =
-    responseFuture.flatMap { res: HttpResponse =>
-      res.entity.dataBytes.runFold(ByteString(""))(_ ++ _).map { body =>
-        body.decodeString(Charset.defaultCharset()).parseJson.convertTo[Versions]
+  def getRandomImage: Future[String] =
+    getAllRockets.map(rockets => randomImageFormAllRockets(rockets.toArray))
+
+  private def parseHttpResponse(futureResponse: Future[HttpResponse]): Future[Response] =
+    futureResponse.flatMap { response =>
+      response.entity.toStrict(expirationTime).map { body =>
+        Response(response.status.intValue(), body.data.utf8String)
       }
     }
 
-//  def get(url: String, params: Map[String, String] = Map(), headers: Map[String, String] = Map()): Future[Response] = {
-//    val futureResponse: Future[HttpResponse] = Http().singleRequest(
-//      HttpRequest(method = HttpMethods.GET, uri = Uri(url).withQuery(Query(params))).withHeaders(parseHeaders(headers))
-//    )
-//    responsify(futureResponse)
-//  }
-//
-//  def getPhotos: Future[Photos] =
-//    responseFuture.flatMap { res: HttpResponse =>
-//      res.entity.dataBytes.runFold(ByteString(""))(_ ++ _).map { body =>
-//        body.decodeString(Charset.defaultCharset()).parseJson.convertTo[Photos]
-//      }
-//
-//    }
-//
-//  def getPhoto: Future[Vector[JsValue]] =
-//    responseFuture.flatMap { res: HttpResponse =>
-//      res.entity.dataBytes.runFold(ByteString(""))(_ ++ _).map { body =>
-//        body.decodeString(Charset.defaultCharset()).parseJson.asJsObject.fields("photos").asInstanceOf[JsArray].elements
-//      }
-//    }
-//
-//  def getOnePhoto(photos: Vector[JsValue]): Future[String] =
-//    Future(s"${photos.head.asJsObject.fields("img_src").asInstanceOf[JsString].value}")
+  private def randomImageFormAllRockets(rockets: Array[Rocket]) = {
+    def random(max: Int) = scala.util.Random.nextInt(max)
+    val randomRocket = rockets(random(rockets.length))
+    val images = randomRocket.flickr_images
+    images(random(images.size))
+  }
 }
+
+case class Response(status: Int, body: String)
